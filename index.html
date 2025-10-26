@@ -849,48 +849,38 @@
                             <div class="dtr-box h-w-100 bg-color-contrast">
 
                                 <!-- form starts -->
-                                <form id="contactform" method="POST" action="https://api.web3forms.com/submit">
-                                    <fieldset>
-                                        <!-- Required Access Key -->
-                                        <input type="hidden" name="access_key" value="d3400688-496e-4ad7-b9ee-51247291816d">
+                                <form id="contactform">
+  <fieldset>
+    <input type="hidden" name="access_key" value="ACCESS_CODE">
 
-                                        <!-- Return JSON instead of default success -->
-                                        <input type="hidden" name="web3forms_type" value="json">
+    <p class="dtr-form-field">
+      <input name="name" type="text" placeholder="Your name" required>
+    </p>
 
-                                        <!-- Name Field -->
-                                        <p class="dtr-form-field">
-                                            <input type="text" name="name" placeholder="Your Name" required>
-                                        </p>
+    <p class="dtr-form-field">
+      <input name="email" type="email" placeholder="hello@example.com" required>
+    </p>
 
-                                        <!-- Email Field -->
-                                        <p class="dtr-form-field">
-                                            <input type="email" name="email" placeholder="hello@example.com" required>
-                                        </p>
+    <p class="dtr-form-field">
+      <input name="subject" type="text" placeholder="Subject">
+    </p>
 
-                                        <!-- Subject Field -->
-                                        <p class="dtr-form-field">
-                                            <input type="text" name="subject" placeholder="Subject" required>
-                                        </p>
+    <p class="dtr-form-field">
+      <textarea rows="4" name="message" placeholder="Message in brief..." required></textarea>
+    </p>
 
-                                        <!-- Message Field -->
-                                        <p class="dtr-form-field">
-                                            <textarea name="message" rows="4" placeholder="Message in brief..." required></textarea>
-                                        </p>
+    <p class="antispam">
+      Leave this empty:<br>
+      <input name="url">
+    </p>
 
-                                        <!-- Honeypot Field (Anti-spam) -->
-                                        <p class="antispam" style="display:none;">
-                                            <input type="text" name="url">
-                                        </p>
+    <p>
+      <button type="submit">Send Message</button>
+    </p>
 
-                                        <!-- Submit Button -->
-                                        <p>
-                                            <button type="submit">Send Message</button>
-                                        </p>
-
-                                        <!-- Result Placeholder -->
-                                        <div id="contactresult"></div>
-                                    </fieldset>
-                                </form>
+    <div id="contactresult"></div>
+  </fieldset>
+</form>
 
                                 <!-- form ends -->
 
@@ -1008,6 +998,17 @@ form.addEventListener("submit", async function (event) {
   const message = form.querySelector("[name='message']").value.trim();
 
   // Basic email check
+  
+  const form = document.getElementById("contactform");
+const result = document.getElementById("contactresult");
+
+form.addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  const name = form.querySelector("[name='name']").value.trim();
+  const email = form.querySelector("[name='email']").value.trim();
+  const message = form.querySelector("[name='message']").value.trim();
+
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!name || !email || !message) {
