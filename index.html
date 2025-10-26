@@ -850,47 +850,47 @@
 
                                 <!-- form starts -->
                                 <form id="contactform" method="POST" action="https://api.web3forms.com/submit">
-                                    <fieldset>
-                                        <!-- Required Access Key -->
-                                        <input type="hidden" name="access_key" value="d3400688-496e-4ad7-b9ee-51247291816d">
+  <fieldset>
+    <!-- Required Access Key -->
+    <input type="hidden" name="access_key" value="d3400688-496e-4ad7-b9ee-51247291816d">
 
-                                        <!-- Return JSON instead of default success -->
-                                        <input type="hidden" name="web3forms_type" value="json">
+    <!-- Return JSON instead of default success -->
+    <input type="hidden" name="web3forms_type" value="json">
 
-                                        <!-- Name Field -->
-                                        <p class="dtr-form-field">
-                                            <input type="text" name="name" placeholder="Your Name" required>
-                                        </p>
+    <!-- Name Field -->
+    <p class="dtr-form-field">
+      <input type="text" name="name" placeholder="Your Name" required>
+    </p>
 
-                                        <!-- Email Field -->
-                                        <p class="dtr-form-field">
-                                            <input type="email" name="email" placeholder="hello@example.com" required>
-                                        </p>
+    <!-- Email Field -->
+    <p class="dtr-form-field">
+      <input type="email" name="email" placeholder="hello@example.com" required>
+    </p>
 
-                                        <!-- Subject Field -->
-                                        <p class="dtr-form-field">
-                                            <input type="text" name="subject" placeholder="Subject" required>
-                                        </p>
+    <!-- Subject Field -->
+    <p class="dtr-form-field">
+      <input type="text" name="subject" placeholder="Subject" required>
+    </p>
 
-                                        <!-- Message Field -->
-                                        <p class="dtr-form-field">
-                                            <textarea name="message" rows="4" placeholder="Message in brief..." required></textarea>
-                                        </p>
+    <!-- Message Field -->
+    <p class="dtr-form-field">
+      <textarea name="message" rows="4" placeholder="Message in brief..." required></textarea>
+    </p>
 
-                                        <!-- Honeypot Field (Anti-spam) -->
-                                        <p class="antispam" style="display:none;">
-                                            <input type="text" name="url">
-                                        </p>
+    <!-- Honeypot Field (Anti-spam) -->
+    <p class="antispam" style="display:none;">
+      <input type="text" name="url">
+    </p>
 
-                                        <!-- Submit Button -->
-                                        <p>
-                                            <button type="submit">Send Message</button>
-                                        </p>
+    <!-- Submit Button -->
+    <p>
+      <button type="submit">Send Message</button>
+    </p>
 
-                                        <!-- Result Placeholder -->
-                                        <div id="contactresult"></div>
-                                    </fieldset>
-                                </form>
+    <!-- Result Placeholder -->
+    <div id="contactresult"></div>
+  </fieldset>
+</form>
 
                                 <!-- form ends -->
 
@@ -998,38 +998,59 @@
     // <!-- Contact me -->
 
   const form = document.getElementById('contactform');
-  const result = document.getElementById('contactresult');
+const result = document.getElementById('contactresult');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    result.innerHTML = "⏳ Sending message...";
-    result.style.color = "#555";
+  // ✅ 1. Basic client-side validation
+  const name = form.querySelector('[name="name"]').value.trim();
+  const email = form.querySelector('[name="email"]').value.trim();
+  const subject = form.querySelector('[name="subject"]').value.trim();
+  const message = form.querySelector('[name="message"]').value.trim();
 
-    const formData = new FormData(form);
+  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-    try {
-      const response = await fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
+  if (!name || !email || !subject || !message) {
+    result.innerHTML = "⚠️ Please fill out all required fields.";
+    result.style.color = "red";
+    return;
+  }
 
-      const data = await response.json();
+  if (!emailPattern.test(email)) {
+    result.innerHTML = "⚠️ Please enter a valid email address.";
+    result.style.color = "red";
+    return;
+  }
 
-      if (response.ok) {
-        result.innerHTML = "✅ Message sent successfully! Thank you for contacting us.";
-        result.style.color = "green";
-        form.reset();
-      } else {
-        result.innerHTML = "❌ " + (data.message || "Something went wrong. Please try again.");
-        result.style.color = "red";
-      }
-    } catch (error) {
-      result.innerHTML = "⚠️ Network error. Please check your connection.";
+  // ✅ 2. Continue only if valid
+  result.innerHTML = "⏳ Sending message...";
+  result.style.color = "#555";
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      result.innerHTML = "✅ Message sent successfully! Thank you for contacting us.";
+      result.style.color = "green";
+      form.reset();
+    } else {
+      result.innerHTML = "❌ " + (data.message || "Something went wrong. Please try again.");
       result.style.color = "red";
     }
-  });
+  } catch (error) {
+    result.innerHTML = "⚠️ Network error. Please check your connection.";
+    result.style.color = "red";
+  }
+});
 
 
 
