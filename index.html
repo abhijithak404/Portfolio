@@ -997,6 +997,28 @@
 
     // <!-- Contact me -->
 
+    document.getElementById("contactform").addEventListener("submit", function (event) {
+  const name = document.querySelector("[name='name']").value.trim();
+  const email = document.querySelector("[name='email']").value.trim();
+  const message = document.querySelector("[name='message']").value.trim();
+
+  // Simple email format check
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!name || !email || !message) {
+    alert("Please fill in all required fields (Name, Email, and Message).");
+    event.preventDefault();
+    return;
+  }
+
+  if (!emailPattern.test(email)) {
+    alert("Please enter a valid email address.");
+    event.preventDefault();
+    return;
+  }
+});
+
+
   const form = document.getElementById('contactform');
   const result = document.getElementById('contactresult');
 
