@@ -1,9 +1,3 @@
-/*
-  Template Name: Olyve HTML Template
-  Author: Tansh
-  Version: 1.0.0
-*/
-
 /*----------------------------------------*/
 /*----- TABLE OF CONTENTS -----*/
 /*----------------------------------------*/
@@ -3423,4 +3417,13 @@ button.dtr-search-submit,
 
 #take-to-top:hover:before {
   color: var(--dtr-btn-color);
+}
+
+
+
+#contactresult {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }

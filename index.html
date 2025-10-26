@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no">
     <title>Abhijith - Portfolio</title>
-    <meta name="author" content="tansh">
+    <meta name="author" content="Abhijith">
     <meta name="description" content="UI UX Designer">
     <meta name="keywords" content="portfolio, personal">
 
@@ -811,7 +811,7 @@
                                 </div>
                                 <div class="dtr-feature__content">
                                     <p class="dtr-feature__subtext">Phone</p>
-                                    <h4 class="dtr-feature__heading">+01 234 567 8902</h4>
+                                    <h4 class="dtr-feature__heading">+91 9946 809 652</h4>
                                 </div>
                             </div>
                             <!-- feature 1 ends -->
@@ -823,7 +823,7 @@
                                 </div>
                                 <div class="dtr-feature__content">
                                     <p class="dtr-feature__subtext">Email</p>
-                                    <h4 class="dtr-feature__heading">sayhello@olyveschwarz.me</h4>
+                                    <h4 class="dtr-feature__heading">abhijithak652@gmail.com</h4>
                                 </div>
                             </div>
                             <!-- feature 2 ends -->
@@ -835,8 +835,8 @@
                                 </div>
                                 <div class="dtr-feature__content">
                                     <p class="dtr-feature__subtext">Address</p>
-                                    <h4 class="dtr-feature__heading">Borough 47, Aveton Gifford,<br>
-                                        Devon, UK, EX4 1QU</h4>
+                                    <h4 class="dtr-feature__heading">Kozhikode, Kerala<br>
+                                        India</h4>
                                 </div>
                             </div>
                             <!-- feature 3 ends -->
@@ -849,29 +849,49 @@
                             <div class="dtr-box h-w-100 bg-color-contrast">
 
                                 <!-- form starts -->
-                                <form id="contactform" method="post" action="https://tanshcreative.com/olyve-st-preview/php/contact-form.php">
+                                <form id="contactform" method="POST" action="https://api.web3forms.com/submit">
                                     <fieldset>
+                                        <!-- Required Access Key -->
+                                        <input type="hidden" name="access_key" value="d3400688-496e-4ad7-b9ee-51247291816d">
+
+                                        <!-- Return JSON instead of default success -->
+                                        <input type="hidden" name="web3forms_type" value="json">
+
+                                        <!-- Name Field -->
                                         <p class="dtr-form-field">
-                                            <input name="name" type="text" placeholder="John Doe">
+                                            <input type="text" name="name" placeholder="Your Name" required>
                                         </p>
+
+                                        <!-- Email Field -->
                                         <p class="dtr-form-field">
-                                            <input name="email" class="required email" type="text" placeholder="hello@example.com">
+                                            <input type="email" name="email" placeholder="hello@example.com" required>
                                         </p>
+
+                                        <!-- Subject Field -->
                                         <p class="dtr-form-field">
-                                            <input name="subject" type="text" placeholder="Subject">
+                                            <input type="text" name="subject" placeholder="Subject" required>
                                         </p>
+
+                                        <!-- Message Field -->
                                         <p class="dtr-form-field">
-                                            <textarea rows="4" name="message" class="required" placeholder="Message in brief..."></textarea>
+                                            <textarea name="message" rows="4" placeholder="Message in brief..." required></textarea>
                                         </p>
-                                        <p class="antispam">Leave this empty: <br>
-                                            <input name="url">
+
+                                        <!-- Honeypot Field (Anti-spam) -->
+                                        <p class="antispam" style="display:none;">
+                                            <input type="text" name="url">
                                         </p>
+
+                                        <!-- Submit Button -->
                                         <p>
                                             <button type="submit">Send Message</button>
                                         </p>
+
+                                        <!-- Result Placeholder -->
                                         <div id="contactresult"></div>
                                     </fieldset>
                                 </form>
+
                                 <!-- form ends -->
 
                             </div>
@@ -972,6 +992,48 @@
                 return false;
             });
         }); 
+
+
+
+    // <!-- Contact me -->
+
+  const form = document.getElementById('contactform');
+  const result = document.getElementById('contactresult');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    result.innerHTML = "⏳ Sending message...";
+    result.style.color = "#555";
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        result.innerHTML = "✅ Message sent successfully! Thank you for contacting us.";
+        result.style.color = "green";
+        form.reset();
+      } else {
+        result.innerHTML = "❌ " + (data.message || "Something went wrong. Please try again.");
+        result.style.color = "red";
+      }
+    } catch (error) {
+      result.innerHTML = "⚠️ Network error. Please check your connection.";
+      result.style.color = "red";
+    }
+  });
+
+
+
+
     </script>
 </body>
 
